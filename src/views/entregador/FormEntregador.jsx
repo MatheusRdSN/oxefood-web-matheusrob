@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon, Select, FormField, Radio } from 'semantic-ui-react';
 
@@ -10,8 +11,14 @@ export default function FormEntregador  () {
        
       ]
 
-      state = {}
-  handleChange = (e, { value }) => this.setState({ value })
+    
+        // Usa o hook useState para gerenciar o estado
+        const [value, setValue] = useState('');
+      
+        // Função para lidar com a mudança de valor
+        const handleChange = (e, { value }) => {
+          setValue(value); // Atualiza o estado com o valor selecionado
+        };
 
       
                                        
@@ -150,12 +157,44 @@ export default function FormEntregador  () {
 
                         
 
-                        <Select placeholder='Selecione seu Estado' options={countryOptions} />
+                        <Select 
+                        placeholder='Selecione' 
+                        options={countryOptions}
+                        width={20}
+                        label='UF' 
+                        />
 
                         <Form.Input
                                     fluid
                                     label='Complemento'>  
                                 </Form.Input>
+
+
+                        <Form.Group>
+                         <FormField>   
+                         <b> Ativo: </b>
+        </FormField>
+        <FormField>
+          <Radio
+            label='Sim'
+            name='radioGroup'
+            value='Sim'
+            checked={value === 'Sim'}
+            onChange={handleChange}
+          />
+        </FormField>
+        <FormField>
+          <Radio
+            label='Não'
+            name='radioGroup'
+            value='Não'
+            checked={value === 'Não'}
+            onChange={handleChange}
+          />
+        
+        
+        </FormField>
+        </Form.Group>
 
 
                         </Form>
