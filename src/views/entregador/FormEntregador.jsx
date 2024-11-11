@@ -1,7 +1,8 @@
-import React from "react";
-import { useState } from "react";
+import axios from "axios";
+
+import React, { useState } from "react";
 import InputMask from 'react-input-mask';
-import { Button, Container, Divider, Form, Icon, Dropdown, FormField, Radio } from 'semantic-ui-react';
+import { Button, Container, Divider, Dropdown, Form, FormField, Icon, Radio } from 'semantic-ui-react';
 
 export default function FormEntregador() {
     const countryOptions = [
@@ -13,12 +14,55 @@ export default function FormEntregador() {
 
 
     // Usa o hook useState para gerenciar o estado
-    const [value, setValue] = useState('');
 
-    // Função para lidar com a mudança de valor
-    const handleChange = (e, { value }) => {
-        setValue(value); // Atualiza o estado com o valor selecionado
-    };
+
+    const [nome, setNome] = useState();
+    const [rg, setRg] = useState();
+    const [cpf, setCpf] = useState();
+    const [dataNascimento, setDataNascimento] = useState();
+    const [foneCelular, setFoneCelular] = useState();
+    const [foneFixo, setFoneFixo] = useState();
+    const [qtdEntregasRealizadas, setQtdEntregasRealizadas] = useState();
+    const [valorFrete, setValorFrete] = useState();
+    const [enderecoRua, setEnderecoRua] = useState();
+    const [enderecoComplemento, setEnderecoComplemento] = useState();
+    const [enderecoNumero, setEnderecoNumero] = useState();
+    const [enderecoBairro, setEnderecoBairro] = useState();
+    const [enderecoCidade, setEnderecoCidade] = useState();
+    const [enderecoCep, setEnderecoCep] = useState();
+    const [enderecoUf, setEnderecoUf] = useState();
+    const [ativo, setAtivo] = useState(true);
+
+    function salvar() {
+
+		let entregadorRequest = {
+		     nome: nome,
+		     cpf: cpf,
+             rg: rg,
+		     dataNascimento: dataNascimento,
+		     foneCelular: foneCelular,
+		     foneFixo: foneFixo,
+
+             qtdEntregasRealizadas: qtdEntregasRealizadas,
+		     valorFrete: valorFrete,
+		     enderecoRua: enderecoRua,
+		     enderecoComplemento: enderecoComplemento,
+		     enderecoNumero: enderecoNumero,
+             enderecoBairro: enderecoBairro,
+		     enderecoCidade: enderecoCidade,
+		     enderecoCep: enderecoCep,
+		     enderecoUf: enderecoUf,
+		     ativo: ativo
+		}
+	
+		axios.post("http://localhost:8080/api/entregador", entregadorRequest)
+		.then((response) => {
+		     console.log('Entregador cadastrado com sucesso.')
+		})
+		.catch((error) => {
+		     console.log('Erro ao incluir o um entregador.')
+		})
+	}
 
 
 
@@ -46,6 +90,8 @@ export default function FormEntregador() {
                                     fluid
                                     label='Nome'
                                     maxLength="100"
+                                    value={nome}
+			                        onChange={e => setNome(e.target.value)}
                                 />
 
                                 <Form.Input
@@ -55,6 +101,8 @@ export default function FormEntregador() {
                                     <InputMask
                                         required
                                         mask="999.999.999-99"
+                                        value={cpf}
+                                        onChange={e => setCpf(e.target.value)}
                                     />
                                 </Form.Input>
 
@@ -64,6 +112,8 @@ export default function FormEntregador() {
                                     <InputMask
                                         required
                                         mask="999.999.999"
+                                        value={rg}
+                                        onChange={e => setRg(e.target.value)}
                                     />
                                 </Form.Input>
                             </Form.Group>
@@ -78,6 +128,8 @@ export default function FormEntregador() {
                                     <InputMask
                                         mask="99/99/9999"
                                         maskChar={null}
+                                        value={dataNascimento}
+                                        onChange={e => setDataNascimento(e.target.value)}
 
                                     />
                                 </Form.Input>
@@ -89,6 +141,8 @@ export default function FormEntregador() {
                                     width={6}>
                                     <InputMask
                                         mask="(99) 99999.9999"
+                                        value={foneCelular}
+                                        onChange={e => setFoneCelular(e.target.value)}
                                     />
                                 </Form.Input>
 
@@ -98,6 +152,8 @@ export default function FormEntregador() {
                                     width={6}>
                                     <InputMask
                                         mask="(99) 99999.9999"
+                                        value={foneFixo}
+                                        onChange={e => setFoneFixo(e.target.value)}
                                     />
                                 </Form.Input>
 
@@ -105,13 +161,18 @@ export default function FormEntregador() {
                                     fluid
                                     width={6}
                                     label='QTD Entrega Realizadas'>
+                                        value={qtdEntregasRealizadas}
+                                        onChange={e => setQtdEntregasRealizadas(e.target.value)}
 
                                 </Form.Input>
 
                                 <Form.Input
                                     fluid
                                     width={6}
-                                    label='Valor Por Frete'>
+                                    label='Valor Por Frete'
+                                    value={valorFrete}
+                                    onChange={e => setValorFrete(e.target.value)}>
+                                        
 
                                 </Form.Input>
                             </Form.Group>
@@ -122,14 +183,19 @@ export default function FormEntregador() {
                                 <Form.Input
                                     fluid
                                     width={6}
-                                    label='Rua'>
+                                    label='Rua'
+                                    value={enderecoRua}
+                                    onChange={e => setEnderecoRua(e.target.value)}>
 
                                 </Form.Input>
 
                                 <Form.Input
                                     fluid
                                     width={6}
-                                    label='Número'>
+                                    label='Número'
+                                    value={enderecoNumero}
+                                    onChange={e => setEnderecoNumero(e.target.value)}>
+                                    
 
                                 </Form.Input>
                             </Form.Group>
@@ -138,19 +204,25 @@ export default function FormEntregador() {
                                 <Form.Input
                                     fluid
                                     width={6}
-                                    label='Bairro'>
+                                    label='Bairro'
+                                    value={enderecoBairro}
+                                    onChange={e => setEnderecoBairro(e.target.value)}>
                                 </Form.Input>
 
                                 <Form.Input
                                     fluid
                                     width={6}
-                                    label='Cidade'>
+                                    label='Cidade'
+                                    value={enderecoCidade}
+                                    onChange={e => setEnderecoCidade(e.target.value)}>
                                 </Form.Input>
 
                                 <Form.Input
                                     fluid
                                     width={6}
-                                    label='CEP'>
+                                    label='CEP'
+                                    value={enderecoCep}
+                                    onChange={e => setEnderecoCep(e.target.value)}>
                                 </Form.Input>
                             </Form.Group>
 
@@ -164,12 +236,16 @@ export default function FormEntregador() {
                                   search
                                   selection
                                     options={countryOptions}
+                                    value={enderecoUf}
+                                    onChange={e => setEnderecoUf(e.target.value)}
                                 />
                             </Form.Input>
 
                             <Form.Input
                                 fluid
-                                label='Complemento'>
+                                label='Complemento'
+                                value={enderecoComplemento}
+                                    onChange={e => setEnderecoComplemento(e.target.value)}>
                             </Form.Input>
 
 
@@ -181,18 +257,18 @@ export default function FormEntregador() {
                                     <Radio
                                         label='Sim'
                                         name='radioGroup'
-                                        value='Sim'
-                                        checked={value === 'Sim'}
-                                        onChange={handleChange}
+                                        value={true}
+                                        checked={ativo === true}
+                                        onChange={() => setAtivo(true)}
                                     />
                                 </FormField>
                                 <FormField>
                                     <Radio
                                         label='Não'
                                         name='radioGroup'
-                                        value='Não'
-                                        checked={value === 'Não'}
-                                        onChange={handleChange}
+                                        value={false}
+                                        checked={ativo === false}
+                                        onChange={() => setAtivo(false)}
                                     />
 
 
@@ -223,6 +299,7 @@ export default function FormEntregador() {
                                 labelPosition='left'
                                 color='blue'
                                 floated='right'
+                                onClick={() => salvar()}
                             >
                                 <Icon name='save' />
                                 Salvar
