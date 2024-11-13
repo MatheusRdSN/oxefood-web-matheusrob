@@ -42,7 +42,6 @@ export default function FormEntregador() {
 		     dataNascimento: dataNascimento,
 		     foneCelular: foneCelular,
 		     foneFixo: foneFixo,
-
              qtdEntregasRealizadas: qtdEntregasRealizadas,
 		     valorFrete: valorFrete,
 		     enderecoRua: enderecoRua,
@@ -60,7 +59,7 @@ export default function FormEntregador() {
 		     console.log('Entregador cadastrado com sucesso.')
 		})
 		.catch((error) => {
-		     console.log('Erro ao incluir o um entregador.')
+		     console.log('Erro ao incluir um entregador.')
 		})
 	}
 
@@ -160,9 +159,10 @@ export default function FormEntregador() {
                                 <Form.Input
                                     fluid
                                     width={6}
-                                    label='QTD Entrega Realizadas'>
-                                        value={qtdEntregasRealizadas}
-                                        onChange={e => setQtdEntregasRealizadas(e.target.value)}
+                                    label='QTD Entrega Realizadas'
+                                    value={qtdEntregasRealizadas}
+                                    onChange={e => setQtdEntregasRealizadas(e.target.value)}>
+                                        
 
                                 </Form.Input>
 
@@ -228,16 +228,17 @@ export default function FormEntregador() {
 
                             <Form.Input
                                 label='UF'
-                              
+                                
                             >
                                 <Dropdown
                                   fluid
                                   placeholder='Selecione'
                                   search
                                   selection
-                                    options={countryOptions}
-                                    value={enderecoUf}
-                                    onChange={e => setEnderecoUf(e.target.value)}
+                                  value={enderecoUf}
+                                  onChange={e => setEnderecoUf(e.target.value)}
+                                  options={countryOptions}
+                                   
                                 />
                             </Form.Input>
 
