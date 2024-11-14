@@ -2,20 +2,40 @@ import axios from "axios";
 
 import React, { useState } from "react";
 import InputMask from 'react-input-mask';
-import { Button, Container, Divider, Dropdown, Form, FormField, Icon, Radio } from 'semantic-ui-react';
+import { Button, Container, Divider, Form, FormField, Icon, Radio } from 'semantic-ui-react';
+import MenuSistema from '../../MenuSistema';
 
 export default function FormEntregador() {
-    const countryOptions = [
-        { key: '1', value: 'RJ', text: 'Rio' },
-        { key: '2', value: 'SP', text: 'Sao Paulo' },
-        { key: '3', value: 'PE', text: 'Pernambuco' },
-
-    ]
-
-
-    // Usa o hook useState para gerenciar o estado
-
-
+    const estadosOptions = [
+        { key: 'AC', value: 'Acre', text: 'Acre' },
+        { key: 'AL', value: 'Alagoas', text: 'Alagoas' },
+        { key: 'AM', value: 'Amazonas', text: 'Amazonas' },
+        { key: 'AP', value: 'Amapá', text: 'Amapá' },
+        { key: 'BA', value: 'Bahia', text: 'Bahia' },
+        { key: 'CE', value: 'Ceará', text: 'Ceará' },
+        { key: 'DF', value: 'Distrito Federal', text: 'Distrito Federal' },
+        { key: 'ES', value: 'Espírito Santo', text: 'Espírito Santo' },
+        { key: 'GO', value: 'Goiás', text: 'Goiás' },
+        { key: 'MA', value: 'Maranhão', text: 'Maranhão' },
+        { key: 'MG', value: 'Minas Gerais', text: 'Minas Gerais' },
+        { key: 'MS', value: 'Mato Grosso do Sul', text: 'Mato Grosso do Sul' },
+        { key: 'MT', value: 'Mato Grosso', text: 'Mato Grosso' },
+        { key: 'PA', value: 'Pará', text: 'Pará' },
+        { key: 'PB', value: 'Paraíba', text: 'Paraíba' },
+        { key: 'PE', value: 'Pernambuco', text: 'Pernambuco' },
+        { key: 'PI', value: 'Piauí', text: 'Piauí' },
+        { key: 'PR', value: 'Paraná', text: 'Paraná' },
+        { key: 'RJ', value: 'Rio de Janeiro', text: 'Rio de Janeiro' },
+        { key: 'RN', value: 'Rio Grande do Norte', text: 'Rio Grande do Norte' },
+        { key: 'RO', value: 'Rondônia', text: 'Rondônia' },
+        { key: 'RR', value: 'Roraima', text: 'Roraima' },
+        { key: 'RS', value: 'Rio Grande do Sul', text: 'Rio Grande do Sul' },
+        { key: 'SC', value: 'Santa Catarina', text: 'Santa Catarina' },
+        { key: 'SE', value: 'Sergipe', text: 'Sergipe' },
+        { key: 'SP', value: 'São Paulo', text: 'São Paulo' },
+        { key: 'TO', value: 'Tocantins', text: 'Tocantins' }
+    ];
+    
     const [nome, setNome] = useState();
     const [rg, setRg] = useState();
     const [cpf, setCpf] = useState();
@@ -30,8 +50,12 @@ export default function FormEntregador() {
     const [enderecoBairro, setEnderecoBairro] = useState();
     const [enderecoCidade, setEnderecoCidade] = useState();
     const [enderecoCep, setEnderecoCep] = useState();
+    const [ativo, setAtivo] = useState(null);
+    
     const [enderecoUf, setEnderecoUf] = useState();
-    const [ativo, setAtivo] = useState(true);
+    const handleChange = (e, {value})=>{
+        setEnderecoUf(value);
+    }
 
     function salvar() {
 
@@ -53,7 +77,10 @@ export default function FormEntregador() {
 		     enderecoUf: enderecoUf,
 		     ativo: ativo
 		}
+
+       
 	
+        console.log(entregadorRequest)
 		axios.post("http://localhost:8080/api/entregador", entregadorRequest)
 		.then((response) => {
 		     console.log('Entregador cadastrado com sucesso.')
@@ -63,12 +90,11 @@ export default function FormEntregador() {
 		})
 	}
 
-
-
-
     return (
 
         <div>
+
+<MenuSistema tela={'entregador'} />
 
             <div style={{ marginTop: '3%' }}>
 
@@ -226,21 +252,17 @@ export default function FormEntregador() {
                                 </Form.Input>
                             </Form.Group>
 
-                            <Form.Input
-                                label='UF'
-                                
-                            >
-                                <Dropdown
-                                  fluid
-                                  placeholder='Selecione'
-                                  search
-                                  selection
+                            
+                            <Form.Select 
+                                 fluid
+                                 label='Estado'
+                                 placeholder='Selecione'  
+                                search
+                                selection
+                                  options={estadosOptions}
                                   value={enderecoUf}
-                                  onChange={e => setEnderecoUf(e.target.value)}
-                                  options={countryOptions}
-                                   
-                                />
-                            </Form.Input>
+                                  onChange={handleChange}   
+                                  />
 
                             <Form.Input
                                 fluid
@@ -248,7 +270,6 @@ export default function FormEntregador() {
                                 value={enderecoComplemento}
                                     onChange={e => setEnderecoComplemento(e.target.value)}>
                             </Form.Input>
-
 
                             <Form.Group>
                                 <FormField>
