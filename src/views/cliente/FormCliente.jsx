@@ -23,6 +23,7 @@ export default function FormCliente () {
 		     foneCelular: foneCelular,
 		     foneFixo: foneFixo
 		}
+        console.log(clienteRequest);
 	
 		axios.post("http://localhost:8080/api/cliente", clienteRequest)
 		.then((response) => {

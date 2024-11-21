@@ -19,15 +19,7 @@ export default function ListEntregador () {
            setLista(response.data)
        })
    }
-   function formatarData(dataParam) {
-
-    if (dataParam === null || dataParam === '' || dataParam === undefined) {
-        return ''
-    }
-
-    let arrayData = dataParam.split('-');
-    return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
-}
+  
 
 return(
     <div>
@@ -84,7 +76,7 @@ return(
                                   <Table.Cell>{entregador.nome}</Table.Cell>
                                   <Table.Cell>{entregador.cpf}</Table.Cell>
                                   <Table.Cell>{entregador.rg}</Table.Cell>
-                                  <Table.Cell>{formatarData(entregador.dataNascimento)}</Table.Cell>
+                                  <Table.Cell>{entregador.dataNascimento}</Table.Cell>
                                   <Table.Cell>{entregador.foneCelular}</Table.Cell>
                                   <Table.Cell>{entregador.foneFixo}</Table.Cell>
                                   <Table.Cell>{entregador.qtdEntregasRealizadas}</Table.Cell>

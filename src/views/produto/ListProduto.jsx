@@ -62,7 +62,8 @@ return(
 
                           { lista.map(produto => (
 
-                              <Table.Row key={produto.codigo}>
+                              <Table.Row key={produto.id}>
+                                  <Table.Cell>{produto.codigo}</Table.Cell>
                                   <Table.Cell>{produto.titulo}</Table.Cell>
                                   <Table.Cell>{produto.descricao}</Table.Cell>
                                   <Table.Cell>{produto.valorUnitario}</Table.Cell>

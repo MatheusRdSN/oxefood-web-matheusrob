@@ -19,15 +19,6 @@ export default function ListCliente () {
            setLista(response.data)
        })
    }
-   function formatarData(dataParam) {
-
-    if (dataParam === null || dataParam === '' || dataParam === undefined) {
-        return ''
-    }
-
-    let arrayData = dataParam.split('-');
-    return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
-}
 
 return(
     <div>
@@ -72,7 +63,7 @@ return(
                               <Table.Row key={cliente.id}>
                                   <Table.Cell>{cliente.nome}</Table.Cell>
                                   <Table.Cell>{cliente.cpf}</Table.Cell>
-                                  <Table.Cell>{formatarData(cliente.dataNascimento)}</Table.Cell>
+                                  <Table.Cell>{cliente.dataNascimento}</Table.Cell>
                                   <Table.Cell>{cliente.foneCelular}</Table.Cell>
                                   <Table.Cell>{cliente.foneFixo}</Table.Cell>
                                   <Table.Cell textAlign='center'>
