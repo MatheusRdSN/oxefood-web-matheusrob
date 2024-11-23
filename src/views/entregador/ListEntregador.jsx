@@ -56,14 +56,14 @@ return(
                               <Table.HeaderCell>Fone Fixo</Table.HeaderCell>
                               <Table.HeaderCell>Entregas Realizadas</Table.HeaderCell>
                               <Table.HeaderCell>Valor Frete</Table.HeaderCell>
-                              <Table.HeaderCell>Endereço: Rua</Table.HeaderCell>
+                             {/*} <Table.HeaderCell>Endereço: Rua</Table.HeaderCell>
                               <Table.HeaderCell>Endereço: Complemento</Table.HeaderCell>
                               <Table.HeaderCell>Endereço: Numero</Table.HeaderCell>
                               <Table.HeaderCell>Endereço: Bairro</Table.HeaderCell>
                               <Table.HeaderCell>Endereço: Cidade</Table.HeaderCell>
-                              <Table.HeaderCell>Endereço: CEP</Table.HeaderCell>
+                              <Table.HeaderCell>Endereço: CEP</Table.HeaderCell> */}
                               <Table.HeaderCell>Endereço: UF</Table.HeaderCell>
-                              <Table.HeaderCell>Ativo</Table.HeaderCell>
+                              {/*<Table.HeaderCell>Ativo</Table.HeaderCell> */}
                               <Table.HeaderCell textAlign='center'>Ações</Table.HeaderCell>
                           </Table.Row>
                       </Table.Header>
@@ -81,14 +81,16 @@ return(
                                   <Table.Cell>{entregador.foneFixo}</Table.Cell>
                                   <Table.Cell>{entregador.qtdEntregasRealizadas}</Table.Cell>
                                   <Table.Cell>{entregador.valorFrete}</Table.Cell>
-                                  <Table.Cell>{entregador.enderecoRua}</Table.Cell>
+                                 {/* <Table.Cell>{entregador.enderecoRua}</Table.Cell>
                                   <Table.Cell>{entregador.enderecoComplemento}</Table.Cell>
                                   <Table.Cell>{entregador.enderecoNumero}</Table.Cell>
                                   <Table.Cell>{entregador.enderecoBairro}</Table.Cell>
                                   <Table.Cell>{entregador.enderecoCidade}</Table.Cell>
-                                  <Table.Cell>{entregador.enderecoCep}</Table.Cell>
+                                  <Table.Cell>{entregador.enderecoCep}</Table.Cell> 
+                                  */}
                                   <Table.Cell>{entregador.enderecoUf}</Table.Cell>
-                                  <Table.Cell>{entregador.ativo}</Table.Cell>
+                                 {/* <Table.Cell>{entregador.ativo}</Table.Cell> 
+                                 */}
                                   <Table.Cell textAlign='center'>
 
                                       <Button
@@ -97,7 +99,7 @@ return(
                                           color='green'
                                           title='Clique aqui para editar os dados deste entregador'
                                           icon>
-                                               <Icon name='edit' />
+                                               <Link to="/form-entregador" state={{id: entregador.id}} style={{color: 'green'}}> <Icon name='edit' /> </Link>
                                       </Button> &nbsp;
 
                                       <Button

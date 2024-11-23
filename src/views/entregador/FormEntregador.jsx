@@ -1,8 +1,8 @@
 import axios from "axios";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputMask from 'react-input-mask';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button, Container, Divider, Form, FormField, Icon, Radio } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
@@ -52,11 +52,40 @@ export default function FormEntregador() {
     const [enderecoCidade, setEnderecoCidade] = useState();
     const [enderecoCep, setEnderecoCep] = useState();
     const [ativo, setAtivo] = useState(null);
-    
     const [enderecoUf, setEnderecoUf] = useState();
     const handleChange = (e, {value})=>{
         setEnderecoUf(value);
     }
+
+    const { state } = useLocation();
+    const [idEntregador, setIdEntregador] = useState();
+
+    useEffect(() => {
+        if (state != null && state.id != null) {
+            axios.get("http://localhost:8080/api/entregador/" + state.id)
+.then((response) => {
+                           setIdEntregador(response.data.id)
+                           setNome(response.data.nome)
+                           setRg(response.data.rg)
+                           setCpf(response.data.cpf)
+                           setDataNascimento(response.data.dataNascimento)
+                           setFoneCelular(response.data.foneCelular)
+                           setFoneFixo(response.data.foneFixo)
+                           setQtdEntregasRealizadas(response.data.qtdEntregasRealizadas)
+                           setValorFrete(response.data.valorFrete)
+                           setEnderecoRua(response.data.enderecoRua)
+                           setEnderecoComplemento(response.data.enderecoComplemento)
+                           setEnderecoNumero(response.data.enderecoNumero)
+                           setEnderecoBairro(response.data.enderecoBairro)
+                           setEnderecoCidade(response.data.enderecoCidade)
+                           setFoneCelular(response.data.foneCelular)
+                           setEnderecoCep(response.data.enderecoCep)
+                           setEnderecoUf(response.data.enderecoUf)
+                           setAtivo(response.data.ativo)
+            })
+        }
+}, [state])
+
 
     function salvar() {
 
@@ -81,14 +110,16 @@ export default function FormEntregador() {
 
        
 	
-        console.log(entregadorRequest)
-		axios.post("http://localhost:8080/api/entregador", entregadorRequest)
-		.then((response) => {
-		     console.log('Entregador cadastrado com sucesso.')
-		})
-		.catch((error) => {
-		     console.log('Erro ao incluir um entregador.')
-		})
+        if (idEntregador != null) { //Alteração:
+            axios.put("http://localhost:8080/api/entregador/" + idEntregador, entregadorRequest)
+            .then((response) => { console.log('Entregador alterado com sucesso.') })
+            .catch((error) => { console.log('Erro ao alter um entregador.') })
+        } else { //Cadastro:
+            axios.post("http://localhost:8080/api/entregador", entregadorRequest)
+            .then((response) => { console.log('Entregador cadastrado com sucesso.') })
+            .catch((error) => { console.log('Erro ao incluir o entregador.') })
+        }
+ 
 	}
 
     return (
@@ -101,7 +132,12 @@ export default function FormEntregador() {
 
                 <Container textAlign='justified' >
 
-                    <h2> <span style={{ color: 'darkgray' }}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
+                { idEntregador === undefined &&
+    <h2> <span style={{color: 'darkgray'}}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
+}
+{ idEntregador != undefined &&
+    <h2> <span style={{color: 'darkgray'}}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
+}
 
                     <Divider />
 
@@ -205,7 +241,7 @@ export default function FormEntregador() {
                             </Form.Group>
 
 
-                            <Form.Group>
+                           {/*  <Form.Group>
 
                                 <Form.Input
                                     fluid
@@ -248,10 +284,15 @@ export default function FormEntregador() {
                                     fluid
                                     width={6}
                                     label='CEP'
-                                    value={enderecoCep}
-                                    onChange={e => setEnderecoCep(e.target.value)}>
+
+                                    <InputMask
+                                        mask="99999-999"
+                                        value={enderecoCep}
+                                         onChange={e => setEnderecoCep(e.target.value)}
+                                    />
+                                        >
                                 </Form.Input>
-                            </Form.Group>
+                            </Form.Group> */}
 
                             
                             <Form.Select 
@@ -265,7 +306,7 @@ export default function FormEntregador() {
                                   onChange={handleChange}   
                                   />
 
-                            <Form.Input
+                        {/*  <Form.Input
                                 fluid
                                 label='Complemento'
                                 value={enderecoComplemento}
@@ -293,10 +334,10 @@ export default function FormEntregador() {
                                         checked={ativo === false}
                                         onChange={() => setAtivo(false)}
                                     />
-
+                                        
 
                                 </FormField>
-                            </Form.Group>
+                            </Form.Group>  */}
 
 
                         </Form>
