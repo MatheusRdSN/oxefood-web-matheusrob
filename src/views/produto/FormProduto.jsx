@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation  } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
@@ -52,7 +52,7 @@ export default function FormProduto () {
             .then((response) => { console.log('Produto cadastrado com sucesso.') })
             .catch((error) => { console.log('Erro ao incluir o produto.') })
         }
- 
+        console.log(tempoEntregaMaximo)
 	}
 
     return (

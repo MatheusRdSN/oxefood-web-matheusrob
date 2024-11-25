@@ -1,12 +1,38 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, Divider, Icon, Table } from 'semantic-ui-react';
+import { Button, Container, Divider, Header, Icon, Modal, Table } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
 export default function ListEntregador () {
 
    const [lista, setLista] = useState([]);
+   const [openModal, setOpenModal] = useState(false);
+   const [idRemover, setIdRemover] = useState();
+
+   function confirmaRemover(id) {
+    setOpenModal(true)
+    setIdRemover(id)
+}
+
+async function remover() {
+
+    await axios.delete('http://localhost:8080/api/entregador/' + idRemover)
+    .then((response) => {
+
+        console.log('Entregador removido com sucesso.')
+
+        axios.get("http://localhost:8080/api/entregador")
+        .then((response) => {
+            setLista(response.data)
+        })
+    })
+    .catch((error) => {
+        console.log('Erro ao remover um entregador.')
+    })
+    setOpenModal(false)
+}
+
 
    useEffect(() => {
        carregarLista();
@@ -52,18 +78,18 @@ return(
                               <Table.HeaderCell>CPF</Table.HeaderCell>
                               <Table.HeaderCell>RG</Table.HeaderCell>
                               <Table.HeaderCell>Data de Nascimento</Table.HeaderCell>
-                              <Table.HeaderCell>Fone Celular</Table.HeaderCell>
+                              {/*<Table.HeaderCell>Fone Celular</Table.HeaderCell>
                               <Table.HeaderCell>Fone Fixo</Table.HeaderCell>
                               <Table.HeaderCell>Entregas Realizadas</Table.HeaderCell>
                               <Table.HeaderCell>Valor Frete</Table.HeaderCell>
-                             {/*} <Table.HeaderCell>Endereço: Rua</Table.HeaderCell>
+                              <Table.HeaderCell>Endereço: Rua</Table.HeaderCell>
                               <Table.HeaderCell>Endereço: Complemento</Table.HeaderCell>
                               <Table.HeaderCell>Endereço: Numero</Table.HeaderCell>
                               <Table.HeaderCell>Endereço: Bairro</Table.HeaderCell>
                               <Table.HeaderCell>Endereço: Cidade</Table.HeaderCell>
-                              <Table.HeaderCell>Endereço: CEP</Table.HeaderCell> */}
+                              <Table.HeaderCell>Endereço: CEP</Table.HeaderCell> 
                               <Table.HeaderCell>Endereço: UF</Table.HeaderCell>
-                              {/*<Table.HeaderCell>Ativo</Table.HeaderCell> */}
+                              <Table.HeaderCell>Ativo</Table.HeaderCell> */}
                               <Table.HeaderCell textAlign='center'>Ações</Table.HeaderCell>
                           </Table.Row>
                       </Table.Header>
@@ -77,19 +103,18 @@ return(
                                   <Table.Cell>{entregador.cpf}</Table.Cell>
                                   <Table.Cell>{entregador.rg}</Table.Cell>
                                   <Table.Cell>{entregador.dataNascimento}</Table.Cell>
-                                  <Table.Cell>{entregador.foneCelular}</Table.Cell>
+                                  {/*<Table.Cell>{entregador.foneCelular}</Table.Cell>
                                   <Table.Cell>{entregador.foneFixo}</Table.Cell>
                                   <Table.Cell>{entregador.qtdEntregasRealizadas}</Table.Cell>
                                   <Table.Cell>{entregador.valorFrete}</Table.Cell>
-                                 {/* <Table.Cell>{entregador.enderecoRua}</Table.Cell>
+                                  <Table.Cell>{entregador.enderecoRua}</Table.Cell>
                                   <Table.Cell>{entregador.enderecoComplemento}</Table.Cell>
                                   <Table.Cell>{entregador.enderecoNumero}</Table.Cell>
                                   <Table.Cell>{entregador.enderecoBairro}</Table.Cell>
                                   <Table.Cell>{entregador.enderecoCidade}</Table.Cell>
-                                  <Table.Cell>{entregador.enderecoCep}</Table.Cell> 
-                                  */}
+                                  <Table.Cell>{entregador.enderecoCep}</Table.Cell>                 
                                   <Table.Cell>{entregador.enderecoUf}</Table.Cell>
-                                 {/* <Table.Cell>{entregador.ativo}</Table.Cell> 
+                                  <Table.Cell>{entregador.ativo}</Table.Cell> 
                                  */}
                                   <Table.Cell textAlign='center'>
 
@@ -107,7 +132,8 @@ return(
                                                circular
                                                color='red'
                                                title='Clique aqui para remover este entregador'
-                                               icon>
+                                               icon
+                                               onClick={e => confirmaRemover(entregador.id)}>
                                                    <Icon name='trash' />
                                            </Button>
 
@@ -120,6 +146,26 @@ return(
                    </div>
                </Container>
            </div>
+
+           <Modal
+               basic
+               onClose={() => setOpenModal(false)}
+               onOpen={() => setOpenModal(true)}
+               open={openModal}
+         >
+               <Header icon>
+                   <Icon name='trash' />
+                   <div style={{marginTop: '5%'}}> Tem certeza que deseja remover esse registro? </div>
+               </Header>
+               <Modal.Actions>
+                   <Button basic color='red' inverted onClick={() => setOpenModal(false)}>
+                       <Icon name='remove' /> Não
+                   </Button>
+                   <Button color='green' inverted onClick={() => remover()}>
+                       <Icon name='checkmark' /> Sim
+                   </Button>
+               </Modal.Actions>
+         </Modal>
 
        </div>
    )

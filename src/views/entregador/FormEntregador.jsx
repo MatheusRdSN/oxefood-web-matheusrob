@@ -241,7 +241,7 @@ export default function FormEntregador() {
                             </Form.Group>
 
 
-                           {/*  <Form.Group>
+                             <Form.Group>
 
                                 <Form.Input
                                     fluid
@@ -284,15 +284,16 @@ export default function FormEntregador() {
                                     fluid
                                     width={6}
                                     label='CEP'
+                                    >
 
                                     <InputMask
                                         mask="99999-999"
                                         value={enderecoCep}
                                          onChange={e => setEnderecoCep(e.target.value)}
                                     />
-                                        >
+                                        
                                 </Form.Input>
-                            </Form.Group> */}
+                            </Form.Group> 
 
                             
                             <Form.Select 
@@ -306,7 +307,7 @@ export default function FormEntregador() {
                                   onChange={handleChange}   
                                   />
 
-                        {/*  <Form.Input
+                          <Form.Input
                                 fluid
                                 label='Complemento'
                                 value={enderecoComplemento}
@@ -337,7 +338,7 @@ export default function FormEntregador() {
                                         
 
                                 </FormField>
-                            </Form.Group>  */}
+                            </Form.Group>  
 
 
                         </Form>
