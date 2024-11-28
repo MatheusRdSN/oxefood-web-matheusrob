@@ -21,6 +21,7 @@ export default function FormProva () {
                            setIdProva(response.data.id)
                            setTexto(response.data.texto)
                            setValorUnitario(response.data.valorUnitario)
+                           setNumero(response.data.numero)
                            setTempoEntregaMaximo(response.data.tempoEntregaMaximo)
             })
         }
@@ -32,6 +33,7 @@ export default function FormProva () {
 		let provaRequest = {
             texto: texto,
             valorUnitario: valorUnitario,
+            numero: numero,
             tempoEntregaMaximo: tempoEntregaMaximo
 		}
 	
@@ -41,7 +43,7 @@ export default function FormProva () {
             .catch((error) => { console.log('Erro ao alterar uma prova.') })
         } else { //Cadastro:
             axios.post("http://localhost:8080/api/prova", provaRequest)
-            .then((response) => { console.log('prova cadastrado com sucesso.') })
+            .then((response) => { console.log('prova cadastrada com sucesso.') })
             .catch((error) => { console.log('Erro ao incluir o prova.') })
         }
      
