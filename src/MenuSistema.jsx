@@ -36,6 +36,13 @@ export default function MenuSistema (props) {
                    to='/list-entregador'
                />
 
+<Menu.Item
+                   content='Prova'
+                   active={props.tela === 'prova'}
+                   as={Link}
+                   to='/list-prova'
+               />
+
            </Menu>
        </>
    )

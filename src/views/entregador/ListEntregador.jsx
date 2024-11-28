@@ -10,32 +10,12 @@ export default function ListEntregador() {
     const [openModal, setOpenModal] = useState(false);
     const [openModalVer, setOpenModalVer] = useState(false);
     const [idRemover, setIdRemover] = useState();
-    const [idVisualizar, setIdVisualizar] = useState();
 
     function confirmaRemover(id) {
         setOpenModal(true)
         setIdRemover(id)
     }
 
-    function mostrarTodosValores(id) {
-        setOpenModalVer(true)
-        setIdVisualizar(id)
-    }
-
-    {/*async function visualizarEntregador() {
-
-    await axios.get('http://localhost:8080/api/entregador/' + idVisualizar.id)
-    .then((response)  => {
-
-            setLista(response.data)
-
-        console.log('Exibindo todas as informações do Entregador.')
-    })
-    .catch((error) => {
-        console.log('Erro ao tentar exibir o entregador.')
-    })
-    setOpenModalVer(false)
-}  */}
 
 
     async function remover() {
