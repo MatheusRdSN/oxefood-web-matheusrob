@@ -37,10 +37,10 @@ export default function MenuSistema (props) {
                />
 
 <Menu.Item
-                   content='Prova'
-                   active={props.tela === 'prova'}
+                   content='Venda'
+                   active={props.tela === 'venda'}
                    as={Link}
-                   to='/list-prova'
+                   to='/list-venda'
                />
 
            </Menu>
