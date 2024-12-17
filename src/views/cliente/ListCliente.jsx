@@ -1,30 +1,19 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, Container, Divider, Header, Icon, Modal, Table } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
 export default function ListCliente() {
 
     const [lista, setLista] = useState([]);
-    const [listaEndereco, setListaEndereco] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [openModalEndereco, setOpenModalEndereco] = useState(false);
     const [idRemover, setIdRemover] = useState();
     const [idCliente, setIdCliente] = useState();
+    const [listaEndereco, setListaEndereco] = useState([]);
 
-    
 
-    
-        useEffect(() => {
-
-                axios.get("http://localhost:8080/api/cliente/" )
-    .then((response) => {
-                               setIdCliente(response.data.endereco)
-                            
-                })
-            
-    })
 
     function confirmaRemover(id) {
         setOpenModal(true)
@@ -57,8 +46,23 @@ export default function ListCliente() {
     }, [])
 
     useEffect(() => {
-        carregarListaEndereco();
-    }, [])
+        if (idCliente) {
+            carregarEndereco();
+        }
+    }, [idCliente]);
+
+    function confirmaVisualizar(id) {
+        setIdCliente(id)
+        setOpenModalEndereco(true)
+    }
+
+    function carregarEndereco() {
+        axios.get("http://localhost:8080/api/cliente/" + idCliente)
+            .then((response) => {
+                setListaEndereco(response.data.enderecos)
+            })
+    }
+
 
     function carregarLista() {
 
@@ -68,13 +72,7 @@ export default function ListCliente() {
             })
     }
 
-    function carregarListaEndereco() {
-
-        axios.get("http://localhost:8080/api/cliente/"  + idCliente)
-            .then((response) => {
-                setListaEndereco(response.data.endereco)
-            })
-    }
+  
 
     return (
         <div>
@@ -162,7 +160,8 @@ export default function ListCliente() {
                                                 color='blue'
                                                 title='Clique aqui para visualizar os endereços'
                                                 icon
-                                                onClick={e => setOpenModalEndereco(listaEndereco)}>
+                                                onClick={e => confirmaVisualizar(cliente.id)}
+                                            >
                                                 <Icon name='eye' />
                                             </Button>
 
@@ -196,67 +195,63 @@ export default function ListCliente() {
                 </Modal.Actions>
             </Modal>
 
-             <Modal
-                            basic
-                            onClose={() => setOpenModalEndereco(false)}
-                            onOpen={() => setOpenModalEndereco(true)}
-                            open={openModalEndereco}
-                        >
-                            <Header icon>
-                                
-                                <div style={{ marginTop: '5%' }}> Exibindo as Informações do Entregador </div>
-                            </Header>
-                            <Modal.Content>
-                                <Table color='orange' sortable celled>
-            
-                                    <Table.Body>
-            
-                                            <>
-                                                <Table.Row>
-                                                    <Table.Cell><strong>Rua</strong></Table.Cell>
-                                                    <Table.Cell>{openModalEndereco.rua}</Table.Cell>
-                                                </Table.Row>
-            
-                                                <Table.Row>
-                                                    <Table.Cell><strong>Complemento</strong></Table.Cell>
-                                                    <Table.Cell>{openModalEndereco.complemento}</Table.Cell>
-                                                </Table.Row>
-            
-                                                <Table.Row>
-                                                    <Table.Cell><strong>Numero</strong></Table.Cell>
-                                                    <Table.Cell>{openModalEndereco.numero}</Table.Cell>
-                                                </Table.Row>
-            
-                                                <Table.Row>
-                                                    <Table.Cell><strong>Bairro</strong></Table.Cell>
-                                                    <Table.Cell>{openModalEndereco.bairro}</Table.Cell>
-                                                </Table.Row>
-            
-                                                <Table.Row>
-                                                    <Table.Cell><strong>Cidade</strong></Table.Cell>
-                                                    <Table.Cell>{openModalEndereco.cidade}</Table.Cell>
-                                                </Table.Row>
-            
-                                                <Table.Row>
-                                                    <Table.Cell><strong>Cep</strong></Table.Cell>
-                                                    <Table.Cell>{openModalEndereco.cep}</Table.Cell>
-                                                </Table.Row>
-            
-                                                <Table.Row>
-                                                    <Table.Cell><strong>Estado</strong></Table.Cell>
-                                                    <Table.Cell>{openModalEndereco.estado}</Table.Cell>
-                                                </Table.Row>
-                                            </>
-                                    </Table.Body>
-                                </Table>
-            
-                            </Modal.Content>
-                            <Modal.Actions>
-                                <Button basic color='red' inverted onClick={() => setOpenModalEndereco(false)}>
-                                    <Icon name='reply' /> Voltar
-                                </Button>
-                            </Modal.Actions>
-                        </Modal>
+         
+            <Modal
+                basic
+                onClose={() => setOpenModalEndereco(false)}
+                onOpen={() => {
+                    setOpenModalEndereco(true);
+                    carregarEndereco();
+                }}
+                open={openModalEndereco}
+            >
+                <Header icon>
+                    <Icon name='eye' />
+                    Detalhes do endereço do cliente
+                </Header>
+                <Modal.Content>
+                    <div style={{ marginTop: '3%' }}>
+
+                        <Container textAlign='justified'>
+
+                            <Table color='orange' sortable celled>
+                                <Table.Header>
+                                    <Table.Row>
+                                        <Table.HeaderCell>Rua</Table.HeaderCell>
+                                        <Table.HeaderCell>Número</Table.HeaderCell>
+                                        <Table.HeaderCell>Complemento</Table.HeaderCell>
+                                        <Table.HeaderCell>Bairro</Table.HeaderCell>
+                                        <Table.HeaderCell>CEP</Table.HeaderCell>
+                                        <Table.HeaderCell>Cidade</Table.HeaderCell>
+                                        <Table.HeaderCell>Estado</Table.HeaderCell>
+                                    </Table.Row>
+                                </Table.Header>
+
+                                <Table.Body>
+                                    {listaEndereco.map(enderecos => (
+                                        <Table.Row key={enderecos.id}>
+                                            <Table.Cell>{enderecos.rua}</Table.Cell>
+                                            <Table.Cell>{enderecos.numero}</Table.Cell>
+                                            <Table.Cell>{enderecos.complemento}</Table.Cell>
+                                            <Table.Cell>{enderecos.bairro}</Table.Cell>
+                                            <Table.Cell>{enderecos.cep}</Table.Cell>
+                                            <Table.Cell>{enderecos.cidade}</Table.Cell>
+                                            <Table.Cell>{enderecos.estado}</Table.Cell>
+                                            <Table.Cell textAlign='center'>
+                                            </Table.Cell>
+                                        </Table.Row>
+                                    ))}
+                                </Table.Body>
+                            </Table>
+                        </Container>
+                    </div>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button color='green' onClick={() => setOpenModalEndereco(false)}>
+                        <Icon name='checkmark' /> Fechar
+                    </Button>
+                </Modal.Actions>
+            </Modal>
 
 
         </div>
