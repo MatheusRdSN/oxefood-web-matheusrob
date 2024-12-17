@@ -52,7 +52,9 @@ export default function FormCliente () {
             axios.post("http://localhost:8080/api/cliente", clienteRequest)
             .then((response) => { console.log('Cliente cadastrado com sucesso.') })
             .catch((error) => { console.log('Erro ao incluir o cliente.') })
+            console.log(foneCelular)
         }
+        
  
 	}
 
