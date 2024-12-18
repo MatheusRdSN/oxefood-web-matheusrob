@@ -5,6 +5,7 @@ import InputMask from 'react-input-mask';
 import { Link, useLocation } from "react-router-dom";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
+import { notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormEndereco() {
 
@@ -56,7 +57,8 @@ export default function FormEndereco() {
         if (state != null && state.id != null) {
             axios.get("http://localhost:8080/api/cliente/" + state.id)
 .then((response) => {
-                           setIdCliente(response.data.id)                 
+                           setIdCliente(response.data.id)
+                                           
                            setRua(response.data.rua)                         
                            setNumero(response.data.numero)
                            setBairro(response.data.bairro)
@@ -67,6 +69,7 @@ export default function FormEndereco() {
             })
         }
 }, [state])
+
 
 
     function salvar() {
@@ -84,8 +87,15 @@ export default function FormEndereco() {
 	
         if (idCliente != null) { 
             axios.post("http://localhost:8080/api/cliente/endereco/" + idCliente, enderecoClienteRequest)
-            .then((response) => { console.log('Endereço cadastrado com sucesso.') })
-            .catch((error) => { console.log('Erro ao incluir o endereço.') })
+            .then((response) => { notifySuccess('Endereço alterado com sucesso.') })
+            .catch((error) => { if (error.response.data.errors != undefined) {
+                for (let i = 0; i < error.response.data.errors.length; i++) {
+                    notifyError(error.response.data.errors[i].defaultMessage)
+             }
+     } else {
+         notifyError(error.response.data.message)
+     }
+  })
         }
  
 	}
@@ -100,9 +110,10 @@ export default function FormEndereco() {
 
                 <Container textAlign='justified' >
 
-                { idCliente === undefined &&
-    <h2> <span style={{color: 'darkgray'}}> Endereço &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
-}
+                { idCliente != undefined &&
+                    <h2> <span style={{color: 'darkgray'}}> Endereço &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
+                }
+                
 
                     <Divider />
 
